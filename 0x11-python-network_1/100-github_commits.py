@@ -1,25 +1,22 @@
 #!/usr/bin/python3
 """
-list 10 commits (from the most recent to oldest) of the repository “rails”
-by the user “rails”
+Python script that takes 2 arguments in order to solve this challenge.
+
+Usage: ./100-github_commits.py <repository name> <repository owner>
 """
-import requests
 from sys import argv
+import requests
 
 
 if __name__ == "__main__":
-    """
-    list 10 commits (from the most recent to oldest) of the repository
-    “rails” by the user “rails”
-    """
-    repo = argv[1]
-    owner = argv[2]
-    url = 'https://api.github.com/repos/{}/{}/commits'.format(owner, repo)
-    r = requests.get(url)
-    res_list = r.json()
+    url = "https://api.github.com/repos/{}/{}/commits".format(argv[2], argv[1])
+    req = requests.get(url)
+    commits = req.json()
+
     try:
-        for i in range(10):
-            print("{}: {}".format(res_list[i].get('sha'), res_list[i].
-                                  get('commit').get('author').get('name')))
-    except:
+        for index in range(10):
+            print("{}: {}".format(
+                commits[index].get("sha"),
+                commits[index].get("commit").get("author").get("name")))
+    except IndexError:
         pass
